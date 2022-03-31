@@ -1,0 +1,130 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <groupId>org.example</groupId>
+    <artifactId>Sysdig-Test-Automation</artifactId>
+    <version>1.0-SNAPSHOT</version>
+
+    <properties>
+        <maven.compiler.source>8</maven.compiler.source>
+        <maven.compiler.target>8</maven.compiler.target>
+    </properties>
+
+    <dependencies>
+
+        <!-- selenium libraries -->
+        <dependency>
+            <groupId>org.seleniumhq.selenium</groupId>
+            <artifactId>selenium-java</artifactId>
+            <version>3.141.59</version>
+        </dependency>
+
+        <!-- cucumber libraries -->
+        <dependency>
+            <groupId>io.cucumber</groupId>
+            <artifactId>cucumber-java</artifactId>
+            <version>6.9.1</version>
+        </dependency>
+
+        <dependency>
+            <groupId>io.cucumber</groupId>
+            <artifactId>cucumber-junit</artifactId>
+            <version>6.9.1</version>
+            <scope>test</scope>
+        </dependency>
+
+        <!-- testNG library -->
+        <dependency>
+            <groupId>org.testng</groupId>
+            <artifactId>testng</artifactId>
+            <version>7.1.0</version>
+        </dependency>
+
+        <!-- Automated driver management and Docker builder for Selenium WebDriver -->
+        <dependency>
+            <groupId>io.github.bonigarcia</groupId>
+            <artifactId>webdrivermanager</artifactId>
+            <version>3.2.0</version>
+        </dependency>
+
+        <!-- generates fake data -->
+        <dependency>
+            <groupId>com.github.javafaker</groupId>
+            <artifactId>javafaker</artifactId>
+            <version>0.15</version>
+        </dependency>
+
+    </dependencies>
+    <build>
+        <plugins>
+
+            <!-- designed to run integration tests -->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-failsafe-plugin</artifactId>
+                <version>3.0.0-M1</version>
+                <configuration>
+                    <testFailureIgnore>true</testFailureIgnore>
+                    <skipTests>false</skipTests>
+                    <includes>
+                        <include>**/runners/*Runner*.java</include>
+                    </includes>
+                </configuration>
+            </plugin>
+
+            <!-- designed to run unit tests -->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-surefire-plugin</artifactId>
+                <version>3.0.0-M1</version>
+                <configuration>
+                    <!--                    <parallel>methods</parallel>-->
+                    <!--                    &lt;!&ndash;                    <forkMode>perthread</forkMode>&ndash;&gt;-->
+                    <!--                    <threadCount>4</threadCount>-->
+                    <!--                    &lt;!&ndash;                    <reuseForks>false</reuseForks>&ndash;&gt;-->
+                    <!--                    &lt;!&ndash;                    <argLine>-Duser.language=en</argLine>&ndash;&gt;-->
+                    <!--                    <argLine>-Xmx1024m</argLine>-->
+                    <!--                    &lt;!&ndash;                    <argLine>-XX:MaxPermSize=256m</argLine>&ndash;&gt;-->
+                    <!--                    &lt;!&ndash;                    <argLine>-Dfile.encoding=UTF-8</argLine>&ndash;&gt;-->
+                    <!--                    &lt;!&ndash;                    <useFile>false</useFile>&ndash;&gt;-->
+                    <includes>
+                        <include>**/runners/*Runner*.java</include>
+                    </includes>
+                    <testFailureIgnore>true</testFailureIgnore> <!-- to get report even when fails -->
+                </configuration>
+            </plugin>
+
+            <!--for using cucumber-reporting to publish pretty html reports for Cucumber -->
+            <plugin>
+                <groupId>net.masterthought</groupId>
+                <artifactId>maven-cucumber-reporting</artifactId>
+                <version>5.0.0</version>
+                <executions>
+                    <execution>
+                        <id>execution</id>
+                        <phase>test</phase> <!-- the report will be created on test phase -->
+                        <goals>
+                            <goal>generate</goal>
+                        </goals>
+                        <configuration>
+                            <projectName>Sysdig-Test-Automation</projectName>
+                            <outputDirectory>${project.build.directory}</outputDirectory>
+                            <inputDirectory>${project.build.directory}</inputDirectory>
+                            <jsonFiles>
+                                <param>**/cucumber.json</param>  <!-- it will take .json file -->
+                                <!--                                <param>**/json-report/*.json</param>-->
+                            </jsonFiles>
+                            <!--                            <classificationFiles>->-->
+                            <!--                           <param>sample.properties</param>-->
+                            <!--                            <param>other.properties</param>-->
+                            <!--                        </classificationFiles>-->
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+        </plugins>
+    </build>
+</project>
