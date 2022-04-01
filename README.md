@@ -29,7 +29,10 @@ I created the FailedRunner.java class to be able to execute failed test cases se
 - _resources/Configuration.properties - Some common data
 
 
-Since shadow root is not created open, I manually tested incorrect input scenarios. 
+Since shadow root is not created open I didn't able to get text from error messages to perform assertions to automate invalid email id scenarios so I manually tested them. The dynamics of the error messages is very impressive. It would be great to try many scenarios with automation. 
+
+I left a comment on the scenarios in the feature file about the findings that can be considered defect.
+
 
 ### Suggession
 While authenticating with google, the system automatically detects the google account logged in. 
